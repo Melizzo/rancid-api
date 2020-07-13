@@ -13,3 +13,10 @@ app.listen(app.get('port'), () => {
 })
 
 
+
+app.locals.favorites = []
+
+app.get('/api/v1/favorites', (request, response) => {
+  const favorites = app.locals.favorites
+  response.json( {favorites })
+})
