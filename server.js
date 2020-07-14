@@ -55,6 +55,12 @@ app.get('/api/v1/movies/comments', (request, response) => {
   response.status(200).json({ comments });
 })
 
+app.post('/api/v1/movies/comments', (request, response) => {
+  const comments = request.body;
+  const {author, comment, movie_id, id} = comments
+  app.locals.comments.push({author, comment, movie_id, id})
+  response.status(201).json({author, comment, movie_id, id});
+})
 
 
 
@@ -63,17 +69,10 @@ app.get('/api/v1/movies/comments', (request, response) => {
 
 
 
-// app.post('/api/v1/movies/comments', (request, response) => {
-//   const comments = request.body;
-
-//   for (let requiredParameter of ['author', 'comment', 'movie_id']) {
-//     if(!comments[requiredParameter]) {
-//       return response
-//         .status(422)
-//         .json({error: `You are missing a required paramter of ${requiredParameter}. Expected format: { author: <String>, comment: <String>, movie_id: <Integer> }`});
-//     }
-//   }
-//   const {author, comment, movie_id} = comments
-//   app.locals.comments.push({id, author, comment, movie_id})
-//   return response.status(201).json({id, author, comment, movie_id});
-// })
+  // for (let input of ['author', 'comment', 'movie_id']) {
+  //   if(!comments[input]) {
+  //     return response
+  //       .status(422)
+  //       .json({error: `You are missing a ${input}. Expected format: { author: <String>, comment: <String>, movie_id: <Integer> }`});
+  //   }
+  // }
