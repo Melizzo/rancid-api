@@ -45,13 +45,15 @@ app.locals.comments = [
 
 app.locals.favorites = []
 
-app.get('/api/v1/favorites', (request, response) => {
-  const favorites = app.locals.favorites
-  response.json( {favorites })
-})
-
 app.get('/api/v1/movies/comments', (request, response) => {
   const comments = app.locals.comments;
+    for (let requiredInput of ['author', 'comment', 'movie_id']) {
+      if(!comments[requiredInput]) {
+        return response
+          .status(422)
+          .json({error: `You are missing a ${requiredInput}. Expected format: { author: <String>, comment: <String>, movie_id: <Integer> }`});
+      }
+  }
   response.status(200).json({ comments });
 })
 
@@ -63,16 +65,20 @@ app.post('/api/v1/movies/comments', (request, response) => {
 })
 
 
+// app.delete('/api/v1/comments/:id', (request, response) => {
+//   const commentID = Number(request.params.id)
+
+//   let commentToDelete = app.locals.comments.find(comment => comment.id === commentID)
+  
+//   const indexOfComment = app.locals.comments.indexOf(commentToDelete)
+
+//   app.locals.comments.splice(indexOfComment, 1)
+
+//   response.json({ message: `Comment ${commentToDelete.commentID} has been deleted.`})
+// })
 
 
 
 
 
 
-  // for (let input of ['author', 'comment', 'movie_id']) {
-  //   if(!comments[input]) {
-  //     return response
-  //       .status(422)
-  //       .json({error: `You are missing a ${input}. Expected format: { author: <String>, comment: <String>, movie_id: <Integer> }`});
-  //   }
-  // }
